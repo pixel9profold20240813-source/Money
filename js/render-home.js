@@ -2,14 +2,6 @@
    render-home.js — 首頁渲染
 ===================================================================== */
 
-const BEAR_MESSAGES = {
-  'no-budget': () => `還沒有設定本月預算喔！<br><b>去設定頁建立一個吧</b>`,
-  happy: (p) => `預算還很充足！<br>已使用 <b>${p}%</b>，繼續保持～`,
-  worried: (p) => `已經用了 <b>${p}%</b> 囉，<br>後面的日子要省一點～`,
-  sad: (p) => `用了 <b>${p}%</b> 快要超過了！<br>小心一點比較好喔`,
-  over: (p) => `嗚嗚已經超支了…<br>超出了 <b>${p - 100}%</b>，這個月要省一點`,
-};
-
 function renderBudgetBlock(status) {
   const mount = document.getElementById('homeBudgetBlock');
   if (status.status === 'no-budget') {
@@ -31,24 +23,35 @@ function renderBudgetBlock(status) {
     </div>`;
 }
 
-function updateBearFace(bearEl, status) {
-  bearEl.classList.remove('happy', 'worried', 'sad', 'over');
-  const faceClass = status.status === 'no-budget' ? 'happy' : status.status;
-  bearEl.classList.add(faceClass);
+/** 渲染首頁的甜甜圈圖：藍色=收入、黃色=依比例吃掉的支出區段 */
+function renderDonut(income, expense) {
+  const svgEl = document.getElementById('donutSvg');
+  // 支出佔收入的比例（超過 100% 時鎖在 100%，避免圖形畸形；
+  // 真實超支金額仍完整顯示在文字與月結餘上）
+  const expensePct = income > 0 ? (expense / income) * 100 : (expense > 0 ? 100 : 0);
+  DonutChart.render(svgEl, expensePct);
+
+  const balance = income - expense;
+  const balanceEl = document.getElementById('donutBalance');
+  balanceEl.textContent = `NT$ ${Utils.formatMoney(balance)}`;
+  balanceEl.style.color = balance < 0 ? 'var(--crayon-red-d)' : 'var(--ink)';
+
+  document.getElementById('donutIncome').textContent = `NT$ ${Utils.formatMoney(income)}`;
+  document.getElementById('donutExpense').textContent = `NT$ ${Utils.formatMoney(expense)}`;
 }
 
 async function renderHome() {
   await AppState.reload();
 
   const status = AppState.budgetStatus();
-  updateBearFace(document.getElementById('homeBear'), status);
-
-  const msgFn = BEAR_MESSAGES[status.status];
-  document.getElementById('homeBearMsg').innerHTML = msgFn(status.percent ?? 0);
   renderBudgetBlock(status);
 
-  document.getElementById('homeIncome').textContent = `NT$ ${Utils.formatMoney(AppState.monthlyIncome())}`;
-  document.getElementById('homeExpense').textContent = `NT$ ${Utils.formatMoney(AppState.monthlyExpense())}`;
+  const income = AppState.monthlyIncome();
+  const expense = AppState.monthlyExpense();
+  renderDonut(income, expense);
+
+  document.getElementById('homeIncome').textContent = `NT$ ${Utils.formatMoney(income)}`;
+  document.getElementById('homeExpense').textContent = `NT$ ${Utils.formatMoney(expense)}`;
   document.getElementById('homeTotalBalance').textContent = `NT$ ${Utils.formatMoney(AppState.totalBalance())}`;
 
   renderRecentList();
