@@ -271,7 +271,7 @@ input, select, textarea{ font-family: var(--font-body); }
   text-align:center;
 }
 .donut-center-label{ font-family:var(--font-display); font-size:0.72rem; color:var(--ink-soft); }
-.donut-center-amount{ font-family:var(--font-hand); font-weight:700; font-size:1.3rem; color:var(--ink); line-height:1.2; }
+.donut-center-amount{ font-family:var(--font-hand); font-weight:700; font-size:1.3rem; color:var(--ink); line-height:1.2; white-space:nowrap; transition: font-size .15s ease; }
 
 .donut-legend{ display:flex; flex-direction:column; gap:10px; }
 .legend-row{ display:flex; align-items:center; gap:8px; }
