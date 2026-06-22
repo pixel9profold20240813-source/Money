@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>塗鴉記帳本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Klee+One:wght@600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="app-header">
+  <h1 class="app-title">🖍️ 塗鴉記帳本</h1>
+  <p class="app-sub">記下每一筆，慢慢存出安心感</p>
+</header>
+
+<!-- ============ 首頁：總覽 ============ -->
+<main class="view" id="view-home">
+
+  <div class="crayon-card">
+    <div class="card-title"><span class="dot"></span>本月狀態小熊</div>
+    <div class="bear-stage">
+      <div class="bear happy" id="homeBear">
+        <div class="bear-ear l"></div>
+        <div class="bear-ear r"></div>
+        <div class="bear-head">
+          <div class="bear-blush l"></div>
+          <div class="bear-blush r"></div>
+          <div class="bear-eye l"></div>
+          <div class="bear-eye r"></div>
+          <div class="bear-mouth"></div>
+          <div class="bear-muzzle"></div>
+          <div class="bear-nose"></div>
+        </div>
+      </div>
+      <div class="bear-msg" id="homeBearMsg">載入中...</div>
+    </div>
+    <div id="homeBudgetBlock"></div>
+  </div>
+
+  <div class="overview-grid">
+    <div class="crayon-card">
+      <div class="card-title" style="justify-content:center"><span class="dot" style="background:var(--crayon-green)"></span>本月收入</div>
+      <div class="amount income" id="homeIncome">NT$ 0</div>
+      <div class="label">收入</div>
+    </div>
+    <div class="crayon-card tilt-r">
+      <div class="card-title" style="justify-content:center"><span class="dot" style="background:var(--crayon-red)"></span>本月支出</div>
+      <div class="amount expense" id="homeExpense">NT$ 0</div>
+      <div class="label">支出</div>
+    </div>
+    <div class="crayon-card">
+      <div class="card-title" style="justify-content:center"><span class="dot" style="background:var(--crayon-blue)"></span>總資產</div>
+      <div class="amount" id="homeTotalBalance" style="color:var(--ink)">NT$ 0</div>
+      <div class="label">所有帳戶</div>
+    </div>
+  </div>
+
+  <div class="crayon-card">
+    <div class="card-title spread">
+      <span style="display:flex;align-items:center;gap:8px;"><span class="dot"></span>最近交易</span>
+      <button class="btn ghost sm" data-nav="ledger">查看全部</button>
+    </div>
+    <div id="homeRecentList"></div>
+  </div>
+
+</main>
+
+<!-- ============ 記帳頁 ============ -->
+<main class="view" id="view-ledger" hidden>
+
+  <div class="account-scroll" id="accountScroll"></div>
+
+  <div class="crayon-card tight">
+    <div class="card-title spread" style="margin-bottom:0;">
+      <span style="display:flex;align-items:center;gap:8px;"><span class="dot"></span>交易明細</span>
+      <span class="tag" id="ledgerCount">0 筆</span>
+    </div>
+  </div>
+
+  <div id="ledgerList"></div>
+
+</main>
+
+<!-- ============ 統計頁 ============ -->
+<main class="view" id="view-stats" hidden>
+
+  <div class="crayon-card">
+    <div class="card-title"><span class="dot" style="background:var(--crayon-purple)"></span>本月支出分類比例</div>
+    <div id="pieChartMount" style="min-height:260px;"></div>
+  </div>
+
+  <div class="crayon-card">
+    <div class="card-title"><span class="dot" style="background:var(--crayon-blue)"></span>近 6 個月收支趨勢</div>
+    <div id="lineChartMount" style="min-height:260px;"></div>
+  </div>
+
+</main>
+
+<!-- ============ 設定頁 ============ -->
+<main class="view" id="view-settings" hidden>
+
+  <div class="crayon-card">
+    <div class="card-title spread">
+      <span style="display:flex;align-items:center;gap:8px;"><span class="dot"></span>帳戶管理</span>
+      <button class="btn sm" id="btnAddAccount">＋ 新增帳戶</button>
+    </div>
+    <div id="settingsAccountList"></div>
+  </div>
+
+  <div class="crayon-card">
+    <div class="card-title"><span class="dot" style="background:var(--crayon-yellow)"></span>本月預算</div>
+    <div class="field">
+      <label for="budgetInput">設定本月總預算 (NT$)</label>
+      <input type="number" id="budgetInput" min="0" step="100" placeholder="例如 20000">
+    </div>
+    <button class="btn full" id="btnSaveBudget">儲存預算</button>
+  </div>
+
+  <div class="crayon-card">
+    <div class="card-title spread">
+      <span style="display:flex;align-items:center;gap:8px;"><span class="dot" style="background:var(--crayon-green)"></span>分類管理</span>
+    </div>
+    <div style="margin-bottom:10px;">
+      <div class="card-title" style="font-size:0.85rem; margin-bottom:6px;">支出分類</div>
+      <div class="chip-group" id="expenseCategoryList"></div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <div class="card-title" style="font-size:0.85rem; margin-bottom:6px;">收入分類</div>
+      <div class="chip-group" id="incomeCategoryList"></div>
+    </div>
+    <button class="btn green sm" id="btnAddCategory">＋ 新增分類</button>
+  </div>
+
+</main>
+
+<!-- ============ 底部導覽 ============ -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-nav="home"><span class="ic">🏠</span>首頁</button>
+  <button class="nav-btn" data-nav="ledger"><span class="ic">📒</span>記帳</button>
+  <button class="nav-btn" data-nav="stats"><span class="ic">📊</span>統計</button>
+  <button class="nav-btn" data-nav="settings"><span class="ic">⚙️</span>設定</button>
+</nav>
+
+<!-- 新增記帳 FAB -->
+<button class="fab" id="fabAdd" title="新增一筆">✏️</button>
+
+<!-- ============ 新增/編輯交易 彈窗 ============ -->
+<div class="modal-mask" id="txModalMask">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <h3 id="txModalTitle">新增一筆</h3>
+      <button class="modal-close" id="txModalClose">✕</button>
+    </div>
+
+    <div class="segmented" style="margin-bottom:16px;">
+      <button type="button" class="active expense" data-type="expense">支出</button>
+      <button type="button" class="income" data-type="income">收入</button>
+    </div>
+
+    <div class="field">
+      <label for="txAmount">金額</label>
+      <input type="number" id="txAmount" inputmode="decimal" placeholder="0" min="0" step="1">
+    </div>
+
+    <div class="field">
+      <label>分類</label>
+      <div class="chip-group" id="txCategoryChips"></div>
+    </div>
+
+    <div class="field">
+      <label for="txAccount">帳戶</label>
+      <select id="txAccount"></select>
+    </div>
+
+    <div class="field">
+      <label for="txDate">日期</label>
+      <input type="date" id="txDate">
+    </div>
+
+    <div class="field">
+      <label for="txNote">備忘（選填）</label>
+      <textarea id="txNote" placeholder="例如：和朋友的下午茶"></textarea>
+    </div>
+
+    <div style="display:flex; gap:10px;">
+      <button class="btn danger" id="txDeleteBtn" style="display:none;">刪除</button>
+      <button class="btn full" id="txSaveBtn">儲存這一筆</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ 新增帳戶 彈窗 ============ -->
+<div class="modal-mask" id="accModalMask">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <h3>新增帳戶</h3>
+      <button class="modal-close" id="accModalClose">✕</button>
+    </div>
+    <div class="field">
+      <label for="accName">帳戶名稱</label>
+      <input type="text" id="accName" placeholder="例如：現金、玉山銀行、悠遊卡">
+    </div>
+    <div class="field">
+      <label for="accBalance">初始餘額 (NT$)</label>
+      <input type="number" id="accBalance" placeholder="0" step="1">
+    </div>
+    <div class="field">
+      <label>顏色標記</label>
+      <div class="color-pick" id="accColorPick"></div>
+    </div>
+    <button class="btn full" id="accSaveBtn">建立帳戶</button>
+  </div>
+</div>
+
+<!-- ============ 新增分類 彈窗 ============ -->
+<div class="modal-mask" id="catModalMask">
+  <div class="modal-sheet">
+    <div class="modal-head">
+      <h3>新增分類</h3>
+      <button class="modal-close" id="catModalClose">✕</button>
+    </div>
+    <div class="segmented" style="margin-bottom:16px;">
+      <button type="button" class="active expense" data-cattype="expense">支出分類</button>
+      <button type="button" class="income" data-cattype="income">收入分類</button>
+    </div>
+    <div class="field">
+      <label for="catName">分類名稱</label>
+      <input type="text" id="catName" placeholder="例如：寵物、訂閱服務">
+    </div>
+    <div class="field">
+      <label for="catIcon">圖示 Emoji（選填）</label>
+      <input type="text" id="catIcon" placeholder="🐱" maxlength="4">
+    </div>
+    <button class="btn full" id="catSaveBtn">新增分類</button>
+  </div>
+</div>
+
+<script src="js/datastore.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/state.js"></script>
+<script src="js/router.js"></script>
+<script src="js/render-home.js"></script>
+<script src="js/render-ledger.js"></script>
+<script src="js/render-stats.js"></script>
+<script src="js/render-settings.js"></script>
+<script src="js/modals.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
