@@ -70,10 +70,39 @@ const DEFAULT_CATEGORIES = [
   { name: '其他收入', type: 'income', icon: 'sparkle', isDefault: true },
 ];
 
+/* 合法的圖示名稱清單（對應 icons.js 裡定義的函式） */
+const VALID_ICON_NAMES = [
+  'food', 'transport', 'fun', 'shopping', 'home', 'medical', 'scribble',
+  'salary', 'bonus', 'job', 'sparkle',
+];
+
+/* 舊版資料用 emoji 字串存圖示，這裡做一次性映射，
+   讓升級後的使用者不用清資料就能自動修復成新的 SVG 名稱 */
+const LEGACY_EMOJI_TO_ICON = {
+  '🍙': 'food', '🚌': 'transport', '🎨': 'fun', '🛍️': 'shopping',
+  '🏠': 'home', '💊': 'medical', '🖍️': 'scribble',
+  '💰': 'salary', '🎁': 'bonus', '🛠️': 'job', '✨': 'sparkle',
+};
+
+function migrateCategoryIcons() {
+  const list = readJSON(STORAGE_KEYS.categories, []);
+  if (!Array.isArray(list) || list.length === 0) return;
+  let changed = false;
+  const fixed = list.map((c) => {
+    if (VALID_ICON_NAMES.includes(c.icon)) return c; // 已經是合法名稱，不動
+    changed = true;
+    const mapped = LEGACY_EMOJI_TO_ICON[c.icon];
+    return { ...c, icon: mapped || 'scribble' };
+  });
+  if (changed) writeJSON(STORAGE_KEYS.categories, fixed);
+}
+
 function ensureSeedData() {
   if (localStorage.getItem(STORAGE_KEYS.categories) === null) {
     const seeded = DEFAULT_CATEGORIES.map((c) => ({ id: genId(), ...c }));
     writeJSON(STORAGE_KEYS.categories, seeded);
+  } else {
+    migrateCategoryIcons(); // 既有資料：檢查並修復舊版 emoji 圖示
   }
   if (localStorage.getItem(STORAGE_KEYS.accounts) === null) {
     writeJSON(STORAGE_KEYS.accounts, []);
