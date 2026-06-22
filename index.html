@@ -12,7 +12,7 @@
 <body>
 
 <header class="app-header">
-  <h1 class="app-title">🖍️ 塗鴉記帳本</h1>
+  <h1 class="app-title"><span class="icon title-icon" id="titleIcon"></span>塗鴉記帳本</h1>
   <p class="app-sub">記下每一筆，慢慢存出安心感</p>
 </header>
 
@@ -138,21 +138,21 @@
 
 <!-- ============ 底部導覽 ============ -->
 <nav class="bottom-nav">
-  <button class="nav-btn active" data-nav="home"><span class="ic">🏠</span>首頁</button>
-  <button class="nav-btn" data-nav="ledger"><span class="ic">📒</span>記帳</button>
-  <button class="nav-btn" data-nav="stats"><span class="ic">📊</span>統計</button>
-  <button class="nav-btn" data-nav="settings"><span class="ic">⚙️</span>設定</button>
+  <button class="nav-btn active" data-nav="home"><span class="icon" id="navIconHome"></span>首頁</button>
+  <button class="nav-btn" data-nav="ledger"><span class="icon" id="navIconLedger"></span>記帳</button>
+  <button class="nav-btn" data-nav="stats"><span class="icon" id="navIconStats"></span>統計</button>
+  <button class="nav-btn" data-nav="settings"><span class="icon" id="navIconSettings"></span>設定</button>
 </nav>
 
 <!-- 新增記帳 FAB -->
-<button class="fab" id="fabAdd" title="新增一筆">✏️</button>
+<button class="fab" id="fabAdd" title="新增一筆"><span class="icon" id="fabIcon"></span></button>
 
 <!-- ============ 新增/編輯交易 彈窗 ============ -->
 <div class="modal-mask" id="txModalMask">
   <div class="modal-sheet">
     <div class="modal-head">
       <h3 id="txModalTitle">新增一筆</h3>
-      <button class="modal-close" id="txModalClose">✕</button>
+      <button class="modal-close" id="txModalClose"><span class="icon" id="txCloseIcon"></span></button>
     </div>
 
     <div class="segmented" style="margin-bottom:16px;">
@@ -197,7 +197,7 @@
   <div class="modal-sheet">
     <div class="modal-head">
       <h3>新增帳戶</h3>
-      <button class="modal-close" id="accModalClose">✕</button>
+      <button class="modal-close" id="accModalClose"><span class="icon" id="accCloseIcon"></span></button>
     </div>
     <div class="field">
       <label for="accName">帳戶名稱</label>
@@ -220,7 +220,7 @@
   <div class="modal-sheet">
     <div class="modal-head">
       <h3>新增分類</h3>
-      <button class="modal-close" id="catModalClose">✕</button>
+      <button class="modal-close" id="catModalClose"><span class="icon" id="catCloseIcon"></span></button>
     </div>
     <div class="segmented" style="margin-bottom:16px;">
       <button type="button" class="active expense" data-cattype="expense">支出分類</button>
@@ -231,8 +231,8 @@
       <input type="text" id="catName" placeholder="例如：寵物、訂閱服務">
     </div>
     <div class="field">
-      <label for="catIcon">圖示 Emoji（選填）</label>
-      <input type="text" id="catIcon" placeholder="🐱" maxlength="4">
+      <label>選擇圖示</label>
+      <div class="icon-pick" id="catIconPick"></div>
     </div>
     <button class="btn full" id="catSaveBtn">新增分類</button>
   </div>
@@ -240,6 +240,7 @@
 
 <script src="js/datastore.js"></script>
 <script src="js/utils.js"></script>
+<script src="js/icons.js"></script>
 <script src="js/state.js"></script>
 <script src="js/router.js"></script>
 <script src="js/render-home.js"></script>
