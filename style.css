@@ -260,47 +260,28 @@ input, select, textarea{ font-family: var(--font-body); }
 .overview-grid .label{ font-size:0.8rem; color:var(--ink-soft); margin-top:4px; }
 
 /* =====================================================================
-   小熊
+   甜甜圈圖（首頁收支結構）
 ===================================================================== */
-.bear-stage{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
-.bear{ position:relative; width:96px; height:96px; flex-shrink:0; }
-.bear-ear{ position:absolute; width:30px; height:30px; background:#E8C9A0; border:2.5px solid var(--ink); border-radius:50%; top:-5px; }
-.bear-ear.l{ left:-3px; } .bear-ear.r{ right:-3px; }
-.bear-ear::after{ content:""; position:absolute; width:12px;height:12px; background:#F6E3C4; border-radius:50%; top:50%; left:50%; transform:translate(-50%,-50%); }
-.bear-head{ position:absolute; top:12px; left:4px; width:88px; height:78px; background:#EFD3A4; border:2.5px solid var(--ink); border-radius:46% 48% 50% 50% / 56% 56% 44% 44%; transition: background .3s; }
-.bear-muzzle{ position:absolute; width:40px; height:32px; background:#FBF0DA; border:2px solid var(--ink); border-radius:50%; left:50%; top:62%; transform:translate(-50%,-30%); }
-.bear-nose{ position:absolute; width:9px;height:7px; background:var(--ink); border-radius:50% 50% 50% 50% / 60% 60% 40% 40%; left:50%; top:58%; transform:translate(-50%,-30%); }
-.bear-eye{ position:absolute; width:5px;height:7px; background:var(--ink); border-radius:50%; top:40%; transition: height .2s ease, top .2s ease, border-radius .2s ease; }
-.bear-eye.l{ left:30%; } .bear-eye.r{ left:62%; }
-.bear-blush{ position:absolute; width:12px;height:7px; background:var(--crayon-red-d); opacity:.45; border-radius:50%; top:58%; }
-.bear-blush.l{ left:7%; } .bear-blush.r{ left:78%; }
-.bear-mouth{ position:absolute; width:18px; height:9px; left:50%; top:73%; transform:translate(-50%,0); border-bottom:2.5px solid var(--ink); border-radius:0 0 50% 50%; opacity:0; }
+.donut-stage{ display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+.donut-wrap{ position:relative; width:140px; height:140px; flex-shrink:0; }
+.donut-svg{ width:100%; height:100%; display:block; overflow:visible; }
+.donut-center{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  text-align:center;
+}
+.donut-center-label{ font-family:var(--font-display); font-size:0.72rem; color:var(--ink-soft); }
+.donut-center-amount{ font-family:var(--font-hand); font-weight:700; font-size:1.3rem; color:var(--ink); line-height:1.2; }
 
-/* 開心 70%以下 */
-.bear.happy .bear-eye{ height:3px; top:42%; border-radius:0 0 50% 50% / 0 0 100% 100%; }
-.bear.happy .bear-mouth{ opacity:1; }
-.bear.happy .bear-head{ background:#EFD3A4; }
-
-/* 略擔心 70-89% */
-.bear.worried .bear-head{ background:#EFD3A4; }
-.bear.worried .bear-eye{ height:7px; }
-
-/* 警示 90-99% */
-.bear.sad .bear-head{ background:#F0D8A8; }
-.bear.sad .bear-eye{ height:6px; }
-.bear.sad .tear{ position:absolute; width:5px; height:9px; background:var(--crayon-blue-d); border-radius:50% 50% 50% 50% / 60% 60% 100% 100%; top:48%; opacity:.85; animation: drip 1.8s ease-in infinite; }
-.bear.sad .tear.l{ left:30%; } .bear.sad .tear.r{ left:64%; animation-delay:.4s; }
-
-/* 超支 100%+ */
-.bear.over .bear-head{ background:#EAC9A0; }
-.bear.over .bear-eye{ height:8px; }
-.bear.over .tear{ position:absolute; width:6px; height:11px; background:var(--crayon-blue-d); border-radius:50% 50% 50% 50% / 60% 60% 100% 100%; top:46%; opacity:.9; animation: drip 1.2s ease-in infinite; }
-.bear.over .tear.l{ left:28%; } .bear.over .tear.r{ left:66%; animation-delay:.3s; }
+.donut-legend{ display:flex; flex-direction:column; gap:10px; }
+.legend-row{ display:flex; align-items:center; gap:8px; }
+.legend-dot{ width:13px; height:13px; border-radius:50%; border:1.5px solid var(--ink); flex-shrink:0; }
+.legend-dot.income{ background:var(--crayon-blue); }
+.legend-dot.expense{ background:var(--crayon-yellow); }
+.legend-text{ font-family:var(--font-display); font-size:0.85rem; color:var(--ink-soft); min-width:52px; }
+.legend-amount{ font-family:var(--font-hand); font-weight:700; font-size:1.05rem; }
 
 @keyframes drip{ 0%{ transform: translateY(0); opacity:.9;} 80%{ transform: translateY(13px); opacity:.6;} 100%{ transform: translateY(15px); opacity:0;} }
-
-.bear-msg{ font-family: var(--font-display); font-size: 0.98rem; line-height:1.55; }
-.bear-msg b{ font-family:var(--font-hand); font-size:1.25rem; }
 
 /* =====================================================================
    預算條

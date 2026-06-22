@@ -20,22 +20,27 @@
 <main class="view" id="view-home">
 
   <div class="crayon-card">
-    <div class="card-title"><span class="dot"></span>本月狀態小熊</div>
-    <div class="bear-stage">
-      <div class="bear happy" id="homeBear">
-        <div class="bear-ear l"></div>
-        <div class="bear-ear r"></div>
-        <div class="bear-head">
-          <div class="bear-blush l"></div>
-          <div class="bear-blush r"></div>
-          <div class="bear-eye l"></div>
-          <div class="bear-eye r"></div>
-          <div class="bear-mouth"></div>
-          <div class="bear-muzzle"></div>
-          <div class="bear-nose"></div>
+    <div class="card-title"><span class="dot"></span>本月收支結構</div>
+    <div class="donut-stage">
+      <div class="donut-wrap">
+        <svg viewBox="0 0 160 160" class="donut-svg" id="donutSvg"></svg>
+        <div class="donut-center">
+          <div class="donut-center-label">月結餘</div>
+          <div class="donut-center-amount" id="donutBalance">NT$ 0</div>
         </div>
       </div>
-      <div class="bear-msg" id="homeBearMsg">載入中...</div>
+      <div class="donut-legend">
+        <div class="legend-row">
+          <span class="legend-dot income"></span>
+          <span class="legend-text">月收入</span>
+          <span class="legend-amount income" id="donutIncome">NT$ 0</span>
+        </div>
+        <div class="legend-row">
+          <span class="legend-dot expense"></span>
+          <span class="legend-text">月支出</span>
+          <span class="legend-amount expense" id="donutExpense">NT$ 0</span>
+        </div>
+      </div>
     </div>
     <div id="homeBudgetBlock"></div>
   </div>
@@ -241,6 +246,7 @@
 <script src="js/datastore.js"></script>
 <script src="js/utils.js"></script>
 <script src="js/icons.js"></script>
+<script src="js/donut-chart.js"></script>
 <script src="js/state.js"></script>
 <script src="js/router.js"></script>
 <script src="js/render-home.js"></script>
