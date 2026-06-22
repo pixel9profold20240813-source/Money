@@ -61,7 +61,7 @@ function renderRecentList() {
   if (recent.length === 0) {
     mount.innerHTML = `
       <div class="empty-state">
-        <span class="emoji">🖍️</span>
+        <span class="icon">${Icons.emptyLedger()}</span>
         <div class="hand">還沒有任何記錄，點右下角開始記第一筆吧！</div>
       </div>`;
     return;
@@ -77,13 +77,13 @@ function renderRecentList() {
 function txItemHTML(t) {
   const cat = AppState.getCategory(t.categoryId);
   const acc = AppState.getAccount(t.accountId);
-  const icon = cat ? cat.icon : '🖍️';
+  const iconHtml = Icons.html(cat ? cat.icon : 'scribble');
   const catName = cat ? cat.name : '未分類';
   const sign = t.type === 'income' ? '+' : '-';
   const cls = t.type === 'income' ? 'income' : 'expense';
   return `
     <div class="tx-item" data-id="${t.id}">
-      <div class="tx-icon">${icon}</div>
+      <div class="tx-icon"><span class="icon">${iconHtml}</span></div>
       <div class="tx-info">
         <div class="tx-cat">${catName}</div>
         ${t.note ? `<div class="tx-note">${escapeHtml(t.note)}</div>` : ''}

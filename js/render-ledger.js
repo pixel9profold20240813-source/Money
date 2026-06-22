@@ -53,7 +53,7 @@ function renderLedgerList() {
   if (list.length === 0) {
     mount.innerHTML = `
       <div class="empty-state">
-        <span class="emoji">📒</span>
+        <span class="icon">${Icons.emptyLedger()}</span>
         <div class="hand">這個帳戶還沒有記錄，點右下角加一筆吧！</div>
       </div>`;
     return;

@@ -17,13 +17,13 @@ async function renderStats() {
   if (byCategory.length === 0) {
     pieMount.innerHTML = `
       <div class="empty-state">
-        <span class="emoji">🥧</span>
+        <span class="icon">${Icons.emptyPie()}</span>
         <div class="hand">本月還沒有支出紀錄，圖表暫時是空的</div>
       </div>`;
   } else {
     pieMount.innerHTML = `
       <div style="font-size:0.85rem; color:var(--ink-soft); margin-bottom:10px;">
-        🖍️ 手繪圓餅圖將於下一階段接入 roughViz，目前先列出統計資料：
+        手繪圓餅圖將於下一階段接入 roughViz，目前先列出統計資料：
       </div>
       ${byCategory.map((c) => `
         <div class="setting-list-item">
@@ -34,7 +34,7 @@ async function renderStats() {
 
   lineMount.innerHTML = `
     <div style="font-size:0.85rem; color:var(--ink-soft); margin-bottom:10px;">
-      🖍️ 手繪折線圖將於下一階段接入 roughViz，目前先列出統計資料：
+      手繪折線圖將於下一階段接入 roughViz，目前先列出統計資料：
     </div>
     ${trend.map((m) => `
       <div class="setting-list-item">

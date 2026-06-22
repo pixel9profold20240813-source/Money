@@ -57,17 +57,17 @@ function tick() {
    預設分類（首次啟動時建立）
 --------------------------------------------------------------------- */
 const DEFAULT_CATEGORIES = [
-  { name: '餐飲', type: 'expense', icon: '🍙', isDefault: true },
-  { name: '交通', type: 'expense', icon: '🚌', isDefault: true },
-  { name: '娛樂', type: 'expense', icon: '🎨', isDefault: true },
-  { name: '購物', type: 'expense', icon: '🛍️', isDefault: true },
-  { name: '居家', type: 'expense', icon: '🏠', isDefault: true },
-  { name: '醫療', type: 'expense', icon: '💊', isDefault: true },
-  { name: '其他支出', type: 'expense', icon: '🖍️', isDefault: true },
-  { name: '薪資', type: 'income', icon: '💰', isDefault: true },
-  { name: '獎金', type: 'income', icon: '🎁', isDefault: true },
-  { name: '兼職', type: 'income', icon: '🛠️', isDefault: true },
-  { name: '其他收入', type: 'income', icon: '✨', isDefault: true },
+  { name: '餐飲', type: 'expense', icon: 'food', isDefault: true },
+  { name: '交通', type: 'expense', icon: 'transport', isDefault: true },
+  { name: '娛樂', type: 'expense', icon: 'fun', isDefault: true },
+  { name: '購物', type: 'expense', icon: 'shopping', isDefault: true },
+  { name: '居家', type: 'expense', icon: 'home', isDefault: true },
+  { name: '醫療', type: 'expense', icon: 'medical', isDefault: true },
+  { name: '其他支出', type: 'expense', icon: 'scribble', isDefault: true },
+  { name: '薪資', type: 'income', icon: 'salary', isDefault: true },
+  { name: '獎金', type: 'income', icon: 'bonus', isDefault: true },
+  { name: '兼職', type: 'income', icon: 'job', isDefault: true },
+  { name: '其他收入', type: 'income', icon: 'sparkle', isDefault: true },
 ];
 
 function ensureSeedData() {
@@ -149,7 +149,7 @@ const categories = {
       id: genId(),
       name: name.trim(),
       type,
-      icon: icon || '🖍️',
+      icon: icon || 'scribble',
       isDefault: false,
     };
     list.push(item);

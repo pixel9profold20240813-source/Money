@@ -18,7 +18,7 @@ let txCurrentType = 'expense';
 function renderTxCategoryChips() {
   const mount = document.getElementById('txCategoryChips');
   const cats = AppState.categories.filter((c) => c.type === txCurrentType);
-  mount.innerHTML = cats.map((c) => `<span class="chip" data-cat="${c.id}">${c.icon} ${escapeHtml(c.name)}</span>`).join('')
+  mount.innerHTML = cats.map((c) => `<span class="chip" data-cat="${c.id}"><span class="icon">${Icons.html(c.icon)}</span> ${escapeHtml(c.name)}</span>`).join('')
     || '<span style="color:var(--ink-soft); font-size:0.85rem;">請先到設定頁新增分類</span>';
 
   let selectedId = mount.querySelector('.chip')?.dataset.cat || null;
@@ -120,7 +120,7 @@ document.getElementById('txSaveBtn').addEventListener('click', async () => {
     Utils.toast('已更新這一筆', 'success');
   } else {
     await DataStore.transactions.add(payload);
-    Utils.toast('已記下這一筆 ✏️', 'success');
+    Utils.toast('已記下這一筆', 'success');
   }
 
   closeModal(txModalMask);
@@ -183,6 +183,22 @@ document.getElementById('accSaveBtn').addEventListener('click', async () => {
 ===================================================================== */
 const catModalMask = document.getElementById('catModalMask');
 let catCurrentType = 'expense';
+let selectedCatIcon = Icons.CATEGORY_ICON_CHOICES[0];
+
+function renderCatIconPicker() {
+  const mount = document.getElementById('catIconPick');
+  mount.innerHTML = Icons.CATEGORY_ICON_CHOICES.map((name, i) =>
+    `<span class="pick-item ${i === 0 ? 'active' : ''}" data-icon="${name}"><span class="icon">${Icons.html(name)}</span></span>`
+  ).join('');
+  selectedCatIcon = Icons.CATEGORY_ICON_CHOICES[0];
+  mount.querySelectorAll('.pick-item').forEach((el) => {
+    el.addEventListener('click', () => {
+      mount.querySelectorAll('.pick-item').forEach((p) => p.classList.remove('active'));
+      el.classList.add('active');
+      selectedCatIcon = el.dataset.icon;
+    });
+  });
+}
 
 document.querySelectorAll('#catModalMask .segmented button').forEach((btn) => {
   btn.addEventListener('click', () => {
@@ -195,11 +211,11 @@ document.querySelectorAll('#catModalMask .segmented button').forEach((btn) => {
 
 document.getElementById('btnAddCategory').addEventListener('click', () => {
   document.getElementById('catName').value = '';
-  document.getElementById('catIcon').value = '';
   catCurrentType = 'expense';
   document.querySelectorAll('#catModalMask .segmented button').forEach((b) => {
     b.classList.toggle('active', b.dataset.cattype === 'expense');
   });
+  renderCatIconPicker();
   openModal(catModalMask);
 });
 document.getElementById('catModalClose').addEventListener('click', () => closeModal(catModalMask));
@@ -207,10 +223,9 @@ catModalMask.addEventListener('click', (e) => { if (e.target === catModalMask) c
 
 document.getElementById('catSaveBtn').addEventListener('click', async () => {
   const name = document.getElementById('catName').value.trim();
-  const icon = document.getElementById('catIcon').value.trim() || '🖍️';
   if (!name) { Utils.toast('請輸入分類名稱', 'danger'); return; }
 
-  await DataStore.categories.add({ name, type: catCurrentType, icon });
+  await DataStore.categories.add({ name, type: catCurrentType, icon: selectedCatIcon });
   Utils.toast('分類新增成功！', 'success');
   closeModal(catModalMask);
   await renderSettings();

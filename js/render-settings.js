@@ -14,7 +14,7 @@ function renderAccountSettingsList() {
   if (AppState.accounts.length === 0) {
     mount.innerHTML = `
       <div class="empty-state">
-        <span class="emoji">🏦</span>
+        <span class="icon">${Icons.emptyBank()}</span>
         <div class="hand">還沒有帳戶，先新增一個吧！</div>
       </div>`;
     return;
@@ -58,7 +58,7 @@ function renderCategoryLists() {
 
   const chipHTML = (c) => `
     <span class="chip" data-cat-id="${c.id}">
-      ${c.icon} ${escapeHtml(c.name)}
+      <span class="icon">${Icons.html(c.icon)}</span> ${escapeHtml(c.name)}
       ${!c.isDefault ? `<span class="x" data-del-cat="${c.id}">✕</span>` : ''}
     </span>`;
 
