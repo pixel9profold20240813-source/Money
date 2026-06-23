@@ -23,6 +23,18 @@ function renderBudgetBlock(status) {
     </div>`;
 }
 
+/** 依文字長度動態縮小字級，避免長數字溢出甜甜圈中央空間
+ *  donut-wrap 在 CSS 中是固定 140px，中央可用安全寬度約 76px（不隨機量測，避免在元素隱藏時量到 0） */
+function fitDonutCenterText(el) {
+  const maxWidth = 76;
+  let size = 1.3;
+  el.style.fontSize = size + 'rem';
+  while (el.scrollWidth > maxWidth && size > 0.7) {
+    size -= 0.08;
+    el.style.fontSize = size + 'rem';
+  }
+}
+
 /** 渲染首頁的甜甜圈圖：藍色=收入、黃色=依比例吃掉的支出區段 */
 function renderDonut(income, expense) {
   const svgEl = document.getElementById('donutSvg');
@@ -33,8 +45,9 @@ function renderDonut(income, expense) {
 
   const balance = income - expense;
   const balanceEl = document.getElementById('donutBalance');
-  balanceEl.textContent = `NT$ ${Utils.formatMoney(balance)}`;
+  balanceEl.textContent = `${balance < 0 ? '-$' : '$'}${Utils.formatMoney(Math.abs(balance))}`;
   balanceEl.style.color = balance < 0 ? 'var(--crayon-red-d)' : 'var(--ink)';
+  fitDonutCenterText(balanceEl);
 
   document.getElementById('donutIncome').textContent = `NT$ ${Utils.formatMoney(income)}`;
   document.getElementById('donutExpense').textContent = `NT$ ${Utils.formatMoney(expense)}`;
