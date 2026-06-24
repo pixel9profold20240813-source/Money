@@ -117,10 +117,10 @@ document.getElementById('txSaveBtn').addEventListener('click', async () => {
 
   if (txEditingId) {
     await DataStore.transactions.update(txEditingId, payload);
-    Utils.toast('已更新這一筆', 'success');
+    Utils.toastSaved('已更新這一筆');
   } else {
     await DataStore.transactions.add(payload);
-    Utils.toast('已記下這一筆', 'success');
+    Utils.toastSaved('已記下這一筆');
   }
 
   closeModal(txModalMask);
@@ -173,7 +173,7 @@ document.getElementById('accSaveBtn').addEventListener('click', async () => {
   if (!name) { Utils.toast('請輸入帳戶名稱', 'danger'); return; }
 
   await DataStore.accounts.add({ name, color: selectedAccColor, initialBalance });
-  Utils.toast('帳戶建立成功！', 'success');
+  Utils.toastSaved('帳戶建立成功！');
   closeModal(accModalMask);
   await renderSettings();
 });
@@ -226,7 +226,7 @@ document.getElementById('catSaveBtn').addEventListener('click', async () => {
   if (!name) { Utils.toast('請輸入分類名稱', 'danger'); return; }
 
   await DataStore.categories.add({ name, type: catCurrentType, icon: selectedCatIcon });
-  Utils.toast('分類新增成功！', 'success');
+  Utils.toastSaved('分類新增成功！');
   closeModal(catModalMask);
   await renderSettings();
 });
@@ -238,5 +238,5 @@ document.getElementById('btnSaveBudget').addEventListener('click', async () => {
   const value = document.getElementById('budgetInput').value;
   if (value === '' || Number(value) < 0) { Utils.toast('請輸入有效的預算金額', 'danger'); return; }
   await DataStore.budgets.set(Utils.currentMonthKey(), value);
-  Utils.toast('預算已儲存！', 'success');
+  Utils.toastSaved('預算已儲存！');
 });

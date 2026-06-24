@@ -55,6 +55,12 @@ const Utils = {
       setTimeout(() => el.remove(), 250);
     }, 2200);
   },
+
+  /** 儲存成功的 toast；若目前處於離線/有待同步資料，自動附加提示文字 */
+  toastSaved(message) {
+    const offline = !navigator.onLine;
+    this.toast(offline ? `${message}（離線中，將自動同步）` : message, offline ? 'info' : 'success');
+  },
 };
 
 window.Utils = Utils;

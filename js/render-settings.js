@@ -7,6 +7,18 @@ async function renderSettings() {
   renderAccountSettingsList();
   renderBudgetInput();
   renderCategoryLists();
+  renderSyncStatus();
+}
+
+function renderSyncStatus() {
+  const mount = document.getElementById('syncStatus');
+  if (!mount) return;
+  const count = window.SyncQueue ? window.SyncQueue.pendingCount() : 0;
+  if (count === 0) {
+    mount.innerHTML = `<span class="sync-ok">已同步至雲端</span>`;
+  } else {
+    mount.innerHTML = `<span class="sync-pending">有 ${count} 筆尚未同步（將於恢復網路後自動上傳）</span>`;
+  }
 }
 
 function renderAccountSettingsList() {
@@ -79,3 +91,7 @@ function renderCategoryLists() {
 }
 
 window.renderSettings = renderSettings;
+
+window.addEventListener('sync-queue-changed', () => {
+  if (Router && Router.current === 'settings') renderSyncStatus();
+});
