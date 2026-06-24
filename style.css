@@ -263,7 +263,14 @@ input, select, textarea{ font-family: var(--font-body); }
    甜甜圈圖（首頁收支結構）
 ===================================================================== */
 .donut-stage{ display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
-.donut-wrap{ position:relative; width:140px; height:140px; flex-shrink:0; }
+.donut-wrap{
+  position:relative;
+  width:140px; height:140px;
+  flex-shrink:0;
+  border-radius: 50%;
+  border: 2.5px solid var(--ink);
+  box-shadow: 1.5px 2px 0 0 var(--ink);
+}
 .donut-svg{ width:100%; height:100%; display:block; overflow:visible; }
 .donut-center{
   position:absolute; inset:0;
@@ -554,6 +561,37 @@ input, select, textarea{ font-family: var(--font-body); }
 .sync-status{ margin-top:10px; font-size:0.8rem; }
 .sync-status .sync-ok{ color: var(--crayon-green-d); }
 .sync-status .sync-pending{ color: var(--crayon-orange-d); }
+
+/* =====================================================================
+   介面大小（zoom 縮放）
+   ---------------------------------------------------------------------
+   套用在 <html> 上，使用 zoom 屬性整體縮放版面（含按鈕、輸入框、文字），
+   主流平板瀏覽器（WebKit / Blink）皆有良好支援。
+===================================================================== */
+html.ui-size-normal{ zoom: 1; }
+html.ui-size-medium{ zoom: 1.15; }
+html.ui-size-large{ zoom: 1.3; }
+html.ui-size-xlarge{ zoom: 1.5; }
+
+.size-pick{ display:flex; gap:8px; flex-wrap:wrap; }
+.size-opt{
+  flex:1;
+  min-width: 64px;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  border: 2px solid var(--ink);
+  border-radius: 12px 13px 11px 14px;
+  padding: 10px 8px;
+  background: var(--paper);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+.size-opt.active{
+  background: var(--crayon-blue);
+  color: var(--ink);
+  box-shadow: 1.5px 2px 0 0 var(--ink);
+}
+
 
 
 

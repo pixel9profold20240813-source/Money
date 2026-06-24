@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Klee+One:wght@600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
+<script src="js/ui-scale.js"></script>
 </head>
 <body>
 
@@ -136,6 +137,17 @@
     </div>
     <div class="sync-status" id="syncStatus"></div>
     <button class="btn danger sm" id="logoutBtn" style="margin-top:10px;">登出</button>
+  </div>
+
+  <div class="crayon-card">
+    <div class="card-title"><span class="dot" style="background:var(--crayon-blue)"></span>介面大小</div>
+    <p style="font-size:0.85rem; color:var(--ink-soft); margin:0 0 12px;">調整整體文字與按鈕的大小</p>
+    <div class="size-pick" id="sizePick">
+      <button type="button" class="size-opt" data-size="normal">小</button>
+      <button type="button" class="size-opt" data-size="medium">中</button>
+      <button type="button" class="size-opt" data-size="large">大</button>
+      <button type="button" class="size-opt" data-size="xlarge">特大</button>
+    </div>
   </div>
 
   <div class="crayon-card">
