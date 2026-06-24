@@ -8,6 +8,7 @@ async function renderSettings() {
   renderBudgetInput();
   renderCategoryLists();
   renderSyncStatus();
+  if (window.UIScale) window.UIScale._syncButtons();
 }
 
 function renderSyncStatus() {
