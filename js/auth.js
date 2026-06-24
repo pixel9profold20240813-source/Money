@@ -3,6 +3,10 @@
    ---------------------------------------------------------------------
    監聽 Firebase 登入狀態，把目前使用者資訊存在 window.AuthState，
    並控制登入畫面 / 主應用畫面的切換。
+
+   注意：showLoginScreen/showAppShell 同時設定 hidden 屬性與
+   inline style.display，不依賴 CSS 選擇器優先級的競爭，
+   確保切換一定會立即生效（不受任何外部 CSS 規則影響）。
 ===================================================================== */
 
 const AuthState = {
@@ -29,13 +33,21 @@ const AuthState = {
 window.AuthState = AuthState;
 
 function showLoginScreen() {
-  document.getElementById('loginScreen').hidden = false;
-  document.getElementById('appShell').hidden = true;
+  const loginEl = document.getElementById('loginScreen');
+  const shellEl = document.getElementById('appShell');
+  loginEl.hidden = false;
+  loginEl.style.setProperty('display', 'flex', 'important');
+  shellEl.hidden = true;
+  shellEl.style.setProperty('display', 'none', 'important');
 }
 
 function showAppShell(user) {
-  document.getElementById('loginScreen').hidden = true;
-  document.getElementById('appShell').hidden = false;
+  const loginEl = document.getElementById('loginScreen');
+  const shellEl = document.getElementById('appShell');
+  loginEl.hidden = true;
+  loginEl.style.setProperty('display', 'none', 'important');
+  shellEl.hidden = false;
+  shellEl.style.setProperty('display', 'block', 'important');
   const nameEl = document.getElementById('userDisplayName');
   const avatarEl = document.getElementById('userAvatar');
   if (nameEl) nameEl.textContent = user.displayName || user.email || '';
