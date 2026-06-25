@@ -9,7 +9,7 @@
      一律直接放行給網路本身處理（這些有自己的離線機制）。
 ===================================================================== */
 
-const CACHE_NAME = 'doodle-ledger-v2';
+const CACHE_NAME = 'doodle-ledger-v3';
 
 const APP_SHELL_FILES = [
   './',

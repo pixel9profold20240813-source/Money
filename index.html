@@ -23,8 +23,16 @@
 </head>
 <body>
 
+<!-- ============ 載入中畫面（驗證登入狀態期間顯示） ============ -->
+<div class="loading-screen" id="loadingScreen">
+  <div class="loading-content">
+    <div class="loading-emblem"></div>
+    <p class="loading-text">載入中…</p>
+  </div>
+</div>
+
 <!-- ============ 登入畫面 ============ -->
-<div class="login-screen" id="loginScreen">
+<div class="login-screen" id="loginScreen" hidden>
   <div class="login-card">
     <div class="login-emblem"></div>
     <h1 class="login-title">塗鴉記帳本</h1>
