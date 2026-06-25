@@ -323,12 +323,21 @@
 
 <script>
   // 註冊 Service Worker，讓 App 能離線開啟（瀏覽器不支援時安靜略過）
+  window.__swStatus = 'not-attempted';
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('service-worker.js').catch((err) => {
-        console.warn('Service Worker 註冊失敗:', err);
-      });
+      navigator.serviceWorker.register('./service-worker.js')
+        .then((reg) => {
+          window.__swStatus = 'registered';
+          console.log('Service Worker 註冊成功:', reg.scope);
+        })
+        .catch((err) => {
+          window.__swStatus = 'failed: ' + err.message;
+          console.warn('Service Worker 註冊失敗:', err);
+        });
     });
+  } else {
+    window.__swStatus = 'unsupported';
   }
 </script>
 </body>
