@@ -1,0 +1,21 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <!-- 背景：牛皮紙圓角方形 -->
+  <rect x="0" y="0" width="512" height="512" rx="96" fill="#FAF3E6"/>
+  <rect x="14" y="14" width="484" height="484" rx="86" fill="none" stroke="#6B5D52" stroke-width="10"/>
+
+  <!-- 甜甜圈圖造型（呼應 App 內首頁的收支圖） -->
+  <circle cx="256" cy="256" r="128" fill="none" stroke="#A8D3E0" stroke-width="56"/>
+  <path d="M256 128 A128 128 0 0 1 360 330" fill="none" stroke="#F5DD9B" stroke-width="56" stroke-linecap="round"/>
+  <circle cx="256" cy="256" r="156" fill="none" stroke="#6B5D52" stroke-width="9"/>
+  <circle cx="256" cy="256" r="100" fill="none" stroke="#6B5D52" stroke-width="9"/>
+
+  <!-- 中央蠟筆筆觸圖示 -->
+  <g transform="translate(256 256)">
+    <circle r="62" fill="#FFFBF2" stroke="#6B5D52" stroke-width="8"/>
+    <g transform="translate(-22 -22) scale(1.7)">
+      <path d="M-8 16 L-12 28 L0 24 L26 -2 C29 -5 29 -10 26 -13 L21 -18 C18 -21 13 -21 10 -18 L-8 16 Z"
+            fill="#F2B6A0" stroke="#6B5D52" stroke-width="3.2" stroke-linejoin="round"/>
+      <path d="M13 -15 L23 -5" stroke="#6B5D52" stroke-width="3"/>
+    </g>
+  </g>
+</svg>
