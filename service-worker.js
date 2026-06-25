@@ -9,7 +9,7 @@
      一律直接放行給網路本身處理（這些有自己的離線機制）。
 ===================================================================== */
 
-const CACHE_NAME = 'doodle-ledger-v1';
+const CACHE_NAME = 'doodle-ledger-v2';
 
 const APP_SHELL_FILES = [
   './',
@@ -31,6 +31,7 @@ const APP_SHELL_FILES = [
   './js/render-settings.js',
   './js/modals.js',
   './js/app.js',
+  './js/install-app.js',
   './icons/icon-192.png',
   './icons/icon-512.png',
 ];

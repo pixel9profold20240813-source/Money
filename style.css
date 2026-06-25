@@ -592,6 +592,12 @@ html.ui-size-xlarge{ zoom: 1.5; }
   box-shadow: 1.5px 2px 0 0 var(--ink);
 }
 
+.install-hint{
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
 
 
 
