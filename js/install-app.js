@@ -71,7 +71,26 @@ const InstallApp = {
       mount.innerHTML = `<button class="btn full" id="installAppBtn">📲 安裝到主畫面</button>`;
       document.getElementById('installAppBtn').addEventListener('click', () => this.promptInstall());
     } else {
-      mount.innerHTML = `<p class="install-hint">請用 Chrome 瀏覽器開啟此網頁才能安裝</p>`;
+      const swStatus = window.__swStatus || '尚未開始註冊';
+      const isSecure = window.isSecureContext;
+      const displayModeStandalone = window.matchMedia('(display-mode: standalone)').matches;
+      mount.innerHTML = `
+        <p class="install-hint">尚未偵測到可安裝的條件，請確認：</p>
+        <ul class="install-checklist">
+          <li>使用 Chrome 瀏覽器開啟</li>
+          <li>網路連線正常（首次需連線載入）</li>
+          <li>不是已經安裝過（可到桌面確認）</li>
+        </ul>
+        <button class="btn ghost sm" id="recheckInstallBtn">重新檢查</button>
+        <details class="install-debug">
+          <summary>診斷資訊（回報問題時可提供）</summary>
+          <p>Service Worker：${swStatus}</p>
+          <p>安全連線 (HTTPS)：${isSecure ? '是' : '否'}</p>
+          <p>目前顯示模式為獨立 App：${displayModeStandalone ? '是' : '否'}</p>
+          <p>瀏覽器資訊：${navigator.userAgent}</p>
+        </details>`;
+      const btn = document.getElementById('recheckInstallBtn');
+      if (btn) btn.addEventListener('click', () => { this._render(); });
     }
   },
 };

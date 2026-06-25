@@ -9,6 +9,7 @@ async function renderSettings() {
   renderCategoryLists();
   renderSyncStatus();
   if (window.UIScale) window.UIScale._syncButtons();
+  if (window.InstallApp) window.InstallApp._render();
 }
 
 function renderSyncStatus() {
