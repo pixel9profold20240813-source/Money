@@ -344,6 +344,19 @@
           console.warn('Service Worker 註冊失敗:', err);
         });
     });
+
+    // 新版 Service Worker 接管後會送這個訊息，代表畫面用的是舊版程式碼。
+    // 不立即強制重新整理（避免使用中突然被打斷，尤其是離線記帳到一半時），
+    // 而是記錄「有更新待套用」，下次重新打開 App（冷啟動）時才會生效。
+    // 因為新 Service Worker 已經 claim 了控制權，下次啟動本來就會載入新版本，
+    // 這裡只是先標記狀態，方便未來在設定頁顯示「有更新，重新打開即可套用」之類的提示。
+    window.__swHasUpdate = false;
+    navigator.serviceWorker.addEventListener('message', (event) => {
+      if (event.data && event.data.type === 'SW_UPDATED') {
+        window.__swHasUpdate = true;
+        console.log('偵測到新版本，將於下次重新開啟 App 時套用');
+      }
+    });
   } else {
     window.__swStatus = 'unsupported';
   }
