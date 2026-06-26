@@ -23,6 +23,7 @@ import {
   updateDoc,
   deleteDoc,
   query,
+  enableIndexedDbPersistence,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // 你的 Firebase 專案設定
@@ -40,6 +41,22 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 const googleProvider = new GoogleAuthProvider();
+
+// 啟用 Firestore 官方離線持久化（存在 IndexedDB）：
+// 連線成功讀取過一次的資料，會自動快取在裝置上，
+// 之後即使完全離線，讀取、新增、修改、刪除都能正常運作，
+// 連線恢復後 SDK 會自動把離線時的異動同步回雲端。
+// 這跟我們自己刻的 localStorage 快取是雙重保障，不會互相衝突。
+enableIndexedDbPersistence(db).catch((err) => {
+  if (err.code === 'failed-precondition') {
+    // 同一瀏覽器開了多個分頁/視窗時，只有一個能啟用持久化，這是正常情況
+    console.warn('Firestore 離線持久化未啟用：偵測到多個開啟的分頁');
+  } else if (err.code === 'unimplemented') {
+    console.warn('Firestore 離線持久化未啟用：此瀏覽器不支援');
+  } else {
+    console.warn('Firestore 離線持久化啟用失敗:', err);
+  }
+});
 
 /** 觸發 Google 登入彈窗 */
 async function loginWithGoogle() {

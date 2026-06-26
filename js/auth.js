@@ -2,11 +2,15 @@
    auth.js — 認證狀態管理
    ---------------------------------------------------------------------
    監聽 Firebase 登入狀態，把目前使用者資訊存在 window.AuthState，
-   並控制登入畫面 / 主應用畫面的切換。
+   並控制「載入中 / 登入 / 主應用」三個畫面之間的切換。
 
-   注意：showLoginScreen/showAppShell 同時設定 hidden 屬性與
-   inline style.display，不依賴 CSS 選擇器優先級的競爭，
-   確保切換一定會立即生效（不受任何外部 CSS 規則影響）。
+   流程：
+   1. 頁面載入時預設顯示「載入中」畫面（HTML 裡已經設定好）。
+   2. Firebase 確認登入狀態後（無論有沒有登入），才切到對應畫面，
+      避免使用者在驗證期間誤以為自己尚未登入而看到登入畫面閃現。
+
+   注意：所有畫面切換同時設定 hidden 屬性與 inline style.display，
+   不依賴 CSS 選擇器優先級的競爭，確保切換一定會立即生效。
 ===================================================================== */
 
 const AuthState = {
@@ -32,7 +36,15 @@ const AuthState = {
 
 window.AuthState = AuthState;
 
+function hideLoadingScreen() {
+  const loadingEl = document.getElementById('loadingScreen');
+  if (!loadingEl) return;
+  loadingEl.hidden = true;
+  loadingEl.style.setProperty('display', 'none', 'important');
+}
+
 function showLoginScreen() {
+  hideLoadingScreen();
   const loginEl = document.getElementById('loginScreen');
   const shellEl = document.getElementById('appShell');
   loginEl.hidden = false;
@@ -42,6 +54,7 @@ function showLoginScreen() {
 }
 
 function showAppShell(user) {
+  hideLoadingScreen();
   const loginEl = document.getElementById('loginScreen');
   const shellEl = document.getElementById('appShell');
   loginEl.hidden = true;
@@ -87,6 +100,16 @@ if (window.FirebaseApp) {
 } else {
   window.addEventListener('firebase-ready', initAuthWatcher, { once: true });
 }
+
+/* 保險機制：若 6 秒後登入狀態仍未確定（例如 Firebase 初始化失敗、
+   網路問題導致 SDK 載入不完整），改顯示登入畫面，
+   避免使用者永遠卡在「載入中」畫面看不到任何內容 */
+setTimeout(() => {
+  if (!AuthState.ready) {
+    console.warn('登入狀態確認逾時，改顯示登入畫面');
+    showLoginScreen();
+  }
+}, 6000);
 
 /* ---------------------------------------------------------------------
    登入 / 登出按鈕事件
